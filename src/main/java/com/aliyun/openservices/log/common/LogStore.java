@@ -22,6 +22,8 @@ public class LogStore implements Serializable {
     private int lastModifyTime = -1;
     private long preserveStorage = -1;
     private long usedStorage = 0;
+    private String sourceProject = "";
+    private String sourceLogStore = "";
 
     public LogStore() {
         super();
@@ -56,6 +58,8 @@ public class LogStore implements Serializable {
         this.mMaxSplitShard = logStore.getmMaxSplitShard();
         this.preserveStorage = logStore.preserveStorage;
         this.usedStorage = logStore.usedStorage;
+        this.sourceProject = logStore.sourceProject;
+        this.sourceLogStore = logStore.sourceLogStore;
     }
 
     public long getPreserveStorage() {
@@ -162,6 +166,26 @@ public class LogStore implements Serializable {
         this.shardCount = shardCount;
     }
 
+    public String GetSourceProject() {
+        return sourceProject;
+    }
+
+    public void SetSourceProject(String sourceProject) {
+        this.sourceProject = sourceProject;
+    }
+
+    public String GetSourceLogStore() {
+        return sourceLogStore;
+    }
+
+    public void SetSourceLogStore(String sourceLogStore) {
+        this.sourceLogStore = sourceLogStore;
+    }
+
+    public boolean IsLink() {
+        return !sourceProject.isEmpty() && !sourceLogStore.isEmpty();
+    }
+
     public JSONObject ToRequestJson() {
         JSONObject logStoreDict = new JSONObject();
         logStoreDict.put("logstoreName", GetLogStoreName());
@@ -230,6 +254,13 @@ public class LogStore implements Serializable {
             			usedStorage = storageJson.getLong("used");
             		}
             	}
+            }
+
+            if (dict.containsKey("sourceProject")) {
+                sourceProject = dict.getString("sourceProject");
+            }
+            if (dict.containsKey("sourceLogstore")) {
+                sourceLogStore = dict.getString("sourceLogstore");
             }
         } catch (JSONException e) {
             throw new LogException("FailToGenerateLogStore", e.getMessage(), e, "");
