@@ -3,209 +3,16 @@
  */
 package com.aliyun.openservices.log;
 
-import com.aliyun.openservices.log.common.ACL;
-import com.aliyun.openservices.log.common.Config;
-import com.aliyun.openservices.log.common.Consts;
+import com.aliyun.openservices.log.common.*;
 import com.aliyun.openservices.log.common.Consts.CursorMode;
-import com.aliyun.openservices.log.common.ConsumerGroup;
-import com.aliyun.openservices.log.common.EtlMeta;
-import com.aliyun.openservices.log.common.Index;
-import com.aliyun.openservices.log.common.InternalLogStore;
-import com.aliyun.openservices.log.common.LogItem;
-import com.aliyun.openservices.log.common.LogStore;
-import com.aliyun.openservices.log.common.MachineGroup;
-import com.aliyun.openservices.log.common.MachineList;
-import com.aliyun.openservices.log.common.ShipperConfig;
 import com.aliyun.openservices.log.exception.LogException;
-import com.aliyun.openservices.log.request.ApplyConfigToMachineGroupRequest;
-import com.aliyun.openservices.log.request.ApproveMachineGroupRequest;
-import com.aliyun.openservices.log.request.BatchGetLogRequest;
-import com.aliyun.openservices.log.request.ClearLogStoreStorageRequest;
-import com.aliyun.openservices.log.request.CreateAlertRequest;
-import com.aliyun.openservices.log.request.CreateChartRequest;
-import com.aliyun.openservices.log.request.CreateConfigRequest;
-import com.aliyun.openservices.log.request.CreateConsumerGroupRequest;
-import com.aliyun.openservices.log.request.CreateDashboardRequest;
-import com.aliyun.openservices.log.request.CreateEtlJobRequest;
-import com.aliyun.openservices.log.request.CreateIndexRequest;
-import com.aliyun.openservices.log.request.CreateJobRequest;
-import com.aliyun.openservices.log.request.CreateLogStoreRequest;
-import com.aliyun.openservices.log.request.CreateLoggingRequest;
-import com.aliyun.openservices.log.request.CreateMachineGroupRequest;
-import com.aliyun.openservices.log.request.CreateSavedSearchRequest;
-import com.aliyun.openservices.log.request.DeleteAlertRequest;
-import com.aliyun.openservices.log.request.DeleteChartRequest;
-import com.aliyun.openservices.log.request.DeleteConfigRequest;
-import com.aliyun.openservices.log.request.DeleteDashboardRequest;
-import com.aliyun.openservices.log.request.DeleteEtlJobRequest;
-import com.aliyun.openservices.log.request.DeleteIndexRequest;
-import com.aliyun.openservices.log.request.DeleteJobRequest;
-import com.aliyun.openservices.log.request.DeleteLogStoreRequest;
-import com.aliyun.openservices.log.request.DeleteLoggingRequest;
-import com.aliyun.openservices.log.request.DeleteMachineGroupRequest;
-import com.aliyun.openservices.log.request.DeleteSavedSearchRequest;
-import com.aliyun.openservices.log.request.DeleteShardRequest;
-import com.aliyun.openservices.log.request.DisableAlertRequest;
-import com.aliyun.openservices.log.request.DisableJobRequest;
-import com.aliyun.openservices.log.request.EnableAlertRequest;
-import com.aliyun.openservices.log.request.EnableJobRequest;
-import com.aliyun.openservices.log.request.GetAlertRequest;
-import com.aliyun.openservices.log.request.GetAppliedConfigsRequest;
-import com.aliyun.openservices.log.request.GetAppliedMachineGroupRequest;
-import com.aliyun.openservices.log.request.GetChartRequest;
-import com.aliyun.openservices.log.request.GetConfigRequest;
-import com.aliyun.openservices.log.request.GetCursorRequest;
-import com.aliyun.openservices.log.request.GetCursorTimeRequest;
-import com.aliyun.openservices.log.request.GetDashboardRequest;
-import com.aliyun.openservices.log.request.GetEtlJobRequest;
-import com.aliyun.openservices.log.request.GetHistogramsRequest;
-import com.aliyun.openservices.log.request.GetIndexRequest;
-import com.aliyun.openservices.log.request.GetJobRequest;
-import com.aliyun.openservices.log.request.GetLogStoreRequest;
-import com.aliyun.openservices.log.request.GetLoggingRequest;
-import com.aliyun.openservices.log.request.GetLogsRequest;
-import com.aliyun.openservices.log.request.GetMachineGroupRequest;
-import com.aliyun.openservices.log.request.GetProjectLogsRequest;
-import com.aliyun.openservices.log.request.GetSavedSearchRequest;
-import com.aliyun.openservices.log.request.ListACLRequest;
-import com.aliyun.openservices.log.request.ListAlertRequest;
-import com.aliyun.openservices.log.request.ListConfigRequest;
-import com.aliyun.openservices.log.request.ListDashboardRequest;
-import com.aliyun.openservices.log.request.ListEtlJobRequest;
-import com.aliyun.openservices.log.request.ListJobsRequest;
-import com.aliyun.openservices.log.request.ListLogStoresRequest;
-import com.aliyun.openservices.log.request.ListMachineGroupRequest;
-import com.aliyun.openservices.log.request.ListProjectRequest;
-import com.aliyun.openservices.log.request.ListSavedSearchRequest;
-import com.aliyun.openservices.log.request.ListShardRequest;
-import com.aliyun.openservices.log.request.ListTopicsRequest;
-import com.aliyun.openservices.log.request.MergeShardsRequest;
-import com.aliyun.openservices.log.request.PullLogsRequest;
-import com.aliyun.openservices.log.request.PutLogsRequest;
-import com.aliyun.openservices.log.request.RemoveConfigFromMachineGroupRequest;
-import com.aliyun.openservices.log.request.SplitShardRequest;
-import com.aliyun.openservices.log.request.UpdateACLRequest;
-import com.aliyun.openservices.log.request.UpdateAlertRequest;
-import com.aliyun.openservices.log.request.UpdateChartRequest;
-import com.aliyun.openservices.log.request.UpdateConfigRequest;
-import com.aliyun.openservices.log.request.UpdateDashboardRequest;
-import com.aliyun.openservices.log.request.UpdateEtlJobRequest;
-import com.aliyun.openservices.log.request.UpdateIndexRequest;
-import com.aliyun.openservices.log.request.UpdateJobRequest;
-import com.aliyun.openservices.log.request.UpdateLogStoreRequest;
-import com.aliyun.openservices.log.request.UpdateLoggingRequest;
-import com.aliyun.openservices.log.request.UpdateMachineGroupMachineRequest;
-import com.aliyun.openservices.log.request.UpdateMachineGroupRequest;
-import com.aliyun.openservices.log.request.UpdateProjectRequest;
-import com.aliyun.openservices.log.request.UpdateSavedSearchRequest;
-import com.aliyun.openservices.log.response.ApplyConfigToMachineGroupResponse;
-import com.aliyun.openservices.log.response.ApproveMachineGroupResponse;
-import com.aliyun.openservices.log.response.BatchGetLogResponse;
-import com.aliyun.openservices.log.response.BatchModifyEtlMetaStatusResponse;
-import com.aliyun.openservices.log.response.ClearLogStoreStorageResponse;
-import com.aliyun.openservices.log.response.ConsumerGroupCheckPointResponse;
-import com.aliyun.openservices.log.response.ConsumerGroupHeartBeatResponse;
-import com.aliyun.openservices.log.response.ConsumerGroupUpdateCheckPointResponse;
-import com.aliyun.openservices.log.response.CreateAlertResponse;
-import com.aliyun.openservices.log.response.CreateChartResponse;
-import com.aliyun.openservices.log.response.CreateConfigResponse;
-import com.aliyun.openservices.log.response.CreateConsumerGroupResponse;
-import com.aliyun.openservices.log.response.CreateDashboardResponse;
-import com.aliyun.openservices.log.response.CreateEtlJobResponse;
-import com.aliyun.openservices.log.response.CreateEtlMetaResponse;
-import com.aliyun.openservices.log.response.CreateIndexResponse;
-import com.aliyun.openservices.log.response.CreateJobResponse;
-import com.aliyun.openservices.log.response.CreateLogStoreInternalResponse;
-import com.aliyun.openservices.log.response.CreateLogStoreResponse;
-import com.aliyun.openservices.log.response.CreateLoggingResponse;
-import com.aliyun.openservices.log.response.CreateMachineGroupResponse;
-import com.aliyun.openservices.log.response.CreateProjectResponse;
-import com.aliyun.openservices.log.response.CreateSavedSearchResponse;
-import com.aliyun.openservices.log.response.CreateShipperResponse;
-import com.aliyun.openservices.log.response.DeleteAlertResponse;
-import com.aliyun.openservices.log.response.DeleteChartResponse;
-import com.aliyun.openservices.log.response.DeleteConfigResponse;
-import com.aliyun.openservices.log.response.DeleteConsumerGroupResponse;
-import com.aliyun.openservices.log.response.DeleteDashboardResponse;
-import com.aliyun.openservices.log.response.DeleteEtlJobResponse;
-import com.aliyun.openservices.log.response.DeleteEtlMetaResponse;
-import com.aliyun.openservices.log.response.DeleteIndexResponse;
-import com.aliyun.openservices.log.response.DeleteJobResponse;
-import com.aliyun.openservices.log.response.DeleteLogStoreResponse;
-import com.aliyun.openservices.log.response.DeleteLoggingResponse;
-import com.aliyun.openservices.log.response.DeleteMachineGroupResponse;
-import com.aliyun.openservices.log.response.DeleteProjectResponse;
-import com.aliyun.openservices.log.response.DeleteSavedSearchResponse;
-import com.aliyun.openservices.log.response.DeleteShardResponse;
-import com.aliyun.openservices.log.response.DeleteShipperResponse;
-import com.aliyun.openservices.log.response.DisableAlertResponse;
-import com.aliyun.openservices.log.response.DisableJobResponse;
-import com.aliyun.openservices.log.response.EnableAlertResponse;
-import com.aliyun.openservices.log.response.EnableJobResponse;
-import com.aliyun.openservices.log.response.GetAlertResponse;
-import com.aliyun.openservices.log.response.GetAppliedConfigResponse;
-import com.aliyun.openservices.log.response.GetAppliedMachineGroupsResponse;
-import com.aliyun.openservices.log.response.GetChartResponse;
-import com.aliyun.openservices.log.response.GetConfigResponse;
-import com.aliyun.openservices.log.response.GetCursorResponse;
-import com.aliyun.openservices.log.response.GetCursorTimeResponse;
-import com.aliyun.openservices.log.response.GetDashboardResponse;
-import com.aliyun.openservices.log.response.GetEtlJobResponse;
-import com.aliyun.openservices.log.response.GetHistogramsResponse;
-import com.aliyun.openservices.log.response.GetIndexResponse;
-import com.aliyun.openservices.log.response.GetIndexStringResponse;
-import com.aliyun.openservices.log.response.GetJobResponse;
-import com.aliyun.openservices.log.response.GetLogStoreResponse;
-import com.aliyun.openservices.log.response.GetLoggingResponse;
-import com.aliyun.openservices.log.response.GetLogsResponse;
-import com.aliyun.openservices.log.response.GetMachineGroupResponse;
-import com.aliyun.openservices.log.response.GetProjectResponse;
-import com.aliyun.openservices.log.response.GetSavedSearchResponse;
-import com.aliyun.openservices.log.response.GetShipperResponse;
-import com.aliyun.openservices.log.response.GetShipperTasksResponse;
-import com.aliyun.openservices.log.response.ListACLResponse;
-import com.aliyun.openservices.log.response.ListAlertResponse;
-import com.aliyun.openservices.log.response.ListConfigResponse;
-import com.aliyun.openservices.log.response.ListConsumerGroupResponse;
-import com.aliyun.openservices.log.response.ListDashboardResponse;
-import com.aliyun.openservices.log.response.ListEtlJobResponse;
-import com.aliyun.openservices.log.response.ListEtlMetaNameResponse;
-import com.aliyun.openservices.log.response.ListEtlMetaResponse;
-import com.aliyun.openservices.log.response.ListJobsResponse;
-import com.aliyun.openservices.log.response.ListLogStoresResponse;
-import com.aliyun.openservices.log.response.ListMachineGroupResponse;
-import com.aliyun.openservices.log.response.ListMachinesResponse;
-import com.aliyun.openservices.log.response.ListProjectResponse;
-import com.aliyun.openservices.log.response.ListSavedSearchResponse;
-import com.aliyun.openservices.log.response.ListShardResponse;
-import com.aliyun.openservices.log.response.ListShipperResponse;
-import com.aliyun.openservices.log.response.ListTopicsResponse;
-import com.aliyun.openservices.log.response.PullLogsResponse;
-import com.aliyun.openservices.log.response.PutLogsResponse;
-import com.aliyun.openservices.log.response.RemoveConfigFromMachineGroupResponse;
-import com.aliyun.openservices.log.response.RetryShipperTasksResponse;
-import com.aliyun.openservices.log.response.UpdateACLResponse;
-import com.aliyun.openservices.log.response.UpdateAlertResponse;
-import com.aliyun.openservices.log.response.UpdateChartResponse;
-import com.aliyun.openservices.log.response.UpdateConfigResponse;
-import com.aliyun.openservices.log.response.UpdateConsumerGroupResponse;
-import com.aliyun.openservices.log.response.UpdateDashboardResponse;
-import com.aliyun.openservices.log.response.UpdateEtlJobResponse;
-import com.aliyun.openservices.log.response.UpdateEtlMetaResponse;
-import com.aliyun.openservices.log.response.UpdateIndexResponse;
-import com.aliyun.openservices.log.response.UpdateJobResponse;
-import com.aliyun.openservices.log.response.UpdateLogStoreInternalResponse;
-import com.aliyun.openservices.log.response.UpdateLogStoreResponse;
-import com.aliyun.openservices.log.response.UpdateLoggingResponse;
-import com.aliyun.openservices.log.response.UpdateMachineGroupMachineResponse;
-import com.aliyun.openservices.log.response.UpdateMachineGroupResponse;
-import com.aliyun.openservices.log.response.UpdateProjectResponse;
-import com.aliyun.openservices.log.response.UpdateSavedSearchResponse;
-import com.aliyun.openservices.log.response.UpdateShipperResponse;
+import com.aliyun.openservices.log.request.*;
+import com.aliyun.openservices.log.response.*;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 
 public interface LogService {
@@ -1863,6 +1670,31 @@ public interface LogService {
     CreateLogStoreResponse CreateLogStore(CreateLogStoreRequest request)
 			throws LogException;
 
+    /**
+     * create link store
+     *
+     * @param project   the project name
+     * @param linkStore the config
+     * @return the create link store response
+     * @throws LogException             if any error happen when creating link store
+     * @throws NullPointerException     if any parameter is null
+     * @throws IllegalArgumentException if project is empty
+     */
+    CreateLinkStoreResponse CreateLinkStore(String project,
+                                            LinkStore linkStore) throws LogException;
+
+    /**
+     * create link store
+     *
+     * @param request link store create request
+     * @return the create link store response
+     * @throws LogException             if any error happen when creating link store
+     * @throws NullPointerException     if required parameter is null
+     * @throws IllegalArgumentException if any required string parameter is empty
+     */
+    CreateLinkStoreResponse CreateLinkStore(CreateLinkStoreRequest request)
+            throws LogException;
+
 	/**
 	 * Update log store config
 	 *
@@ -1952,6 +1784,30 @@ public interface LogService {
 	 */
     DeleteLogStoreResponse DeleteLogStore(DeleteLogStoreRequest request)
 			throws LogException;
+
+    /**
+     * Delete link store
+     *
+     * @param project       the project name
+     * @param linkStoreName the link store to delete
+     * @return delete link store response
+     * @throws LogException             if any error happen when deleting link store
+     * @throws NullPointerException     if required parameter is null
+     * @throws IllegalArgumentException if any required string parameter is empty
+     */
+    DeleteLinkStoreResponse DeleteLinkStore(String project,
+                                            String linkStoreName) throws LogException;
+
+    /**
+     * Delete link store
+     *
+     * @param request delete link store request
+     * @return delete link store response
+     * @throws LogException             if any error happen when deleting link store
+     * @throws NullPointerException     if required parameter is null
+     * @throws IllegalArgumentException if any required string parameter is empty
+     */
+    DeleteLinkStoreResponse DeleteLinkStore(DeleteLinkStoreRequest request) throws LogException;
 
 	/**
 	 * Get the logstore config
@@ -3326,4 +3182,189 @@ public interface LogService {
      * @throws LogException if any error occurs
      */
 	ClearLogStoreStorageResponse ClearLogStoreStorage(String project, String logStoreName) throws LogException;
+
+    /**
+     * create project consumer group
+     *
+     * @param request contains all of parameters needed
+     * @return response
+     * @throws LogException             if any error happened
+     * @throws NullPointerException     if required parameter is null
+     * @throws IllegalArgumentException if any required string parameter is empty
+     */
+    CreateProjectConsumerGroupResponse CreateProjectConsumerGroup(
+            CreateProjectConsumerGroupRequest request) throws LogException;
+
+    /**
+     * create project consumer group
+     *
+     * @param project       project name
+     * @param consumerGroup contains all of parameters needed by consumer group
+     * @return response
+     * @throws LogException             if any error happened
+     * @throws NullPointerException     if required parameter is null
+     * @throws IllegalArgumentException if any required string parameter is empty
+     */
+    CreateProjectConsumerGroupResponse CreateProjectConsumerGroup(
+            String project, ProjectConsumerGroup consumerGroup) throws LogException;
+
+    /**
+     * delete project consumer group
+     *
+     * @param project       project name
+     * @param consumerGroup consumer group name
+     * @return response
+     * @throws LogException             if any error happened
+     * @throws NullPointerException     if required parameter is null
+     * @throws IllegalArgumentException if any required string parameter is empty
+     */
+    DeleteProjectConsumerGroupResponse DeleteProjectConsumerGroup(
+            String project, String consumerGroup) throws LogException;
+
+    /**
+     * list project consumer group
+     *
+     * @param project project name
+     * @return response
+     * @throws LogException             if any error happened
+     * @throws NullPointerException     if required parameter is null
+     * @throws IllegalArgumentException if any required string parameter is empty
+     */
+    ListProjectConsumerGroupResponse ListProjectConsumerGroup(
+            String project) throws LogException;
+
+	/**
+	 * update project consumer group
+	 *
+	 * @param project       project name
+	 * @param consumerGroup consumer group name
+	 * @param inOrder       consume data in order or not
+	 * @param timeoutInSec  if the time interval of a consumer's heartbeat exceed this
+	 *                      value in second, the consumer will be deleted
+	 * @return response
+	 * @throws LogException             if any error happened
+	 * @throws NullPointerException     if required parameter is null
+	 * @throws IllegalArgumentException if any required string parameter is empty
+	 */
+	UpdateProjectConsumerGroupResponse UpdateProjectConsumerGroup(
+			String project, String consumerGroup, boolean inOrder, int timeoutInSec) throws LogException;
+
+	/**
+	 * update project consumer group
+	 *
+	 * @param project       project name
+	 * @param consumerGroup consumer group name
+	 * @param inOrder       consume data in order or not
+	 * @return response
+	 * @throws LogException             if any error happened
+	 * @throws NullPointerException     if required parameter is null
+	 * @throws IllegalArgumentException if any required string parameter is empty
+	 */
+	UpdateProjectConsumerGroupResponse UpdateProjectConsumerGroup(
+			String project, String consumerGroup, boolean inOrder) throws LogException;
+
+	/**
+	 * update project consumer group
+	 *
+	 * @param project       project name
+	 * @param consumerGroup consumer group name
+	 * @param timeoutInSec  if the time interval of a consumer's heartbeat exceed this
+	 *                      value in second, the consumer will be deleted
+	 * @return response
+	 * @throws LogException             if any error happened
+	 * @throws NullPointerException     if required parameter is null
+	 * @throws IllegalArgumentException if any required string parameter is empty
+	 */
+	UpdateProjectConsumerGroupResponse UpdateProjectConsumerGroup(
+			String project, String consumerGroup, int timeoutInSec) throws LogException;
+
+    /**
+     * update consume checkpoint in project consumer group
+     *
+     * @param project       project name
+     * @param consumerGroup project consumer group name
+     * @param consumer      consumer name
+     * @param logStore      log store name
+     * @param shard         shard id
+     * @param checkpoint    shard cursor
+     * @return response
+     * @throws LogException             if any error happened
+     * @throws NullPointerException     if required parameter is null
+     * @throws IllegalArgumentException if any required string parameter is empty
+     */
+    ProjectConsumerGroupUpdateCheckPointResponse UpdateProjectConsumerGroupCheckPoint(
+            String project, String consumerGroup, String consumer, String logStore, int shard, String checkpoint) throws LogException;
+
+    /**
+     * update checkpoint in project consumer group
+     *
+     * @param project       project name
+     * @param consumerGroup project consumer group name
+     * @param logStore      log store name
+     * @param shard         shard id
+     * @param checkpoint    shard cursor
+     * @return response
+     * @throws LogException             if any error happened
+     * @throws NullPointerException     if required parameter is null
+     * @throws IllegalArgumentException if any required string parameter is empty
+     */
+    ProjectConsumerGroupUpdateCheckPointResponse UpdateProjectConsumerGroupCheckPoint(
+            String project, String consumerGroup, String logStore, int shard, String checkpoint) throws LogException;
+
+    /**
+     * get shard checkpoint in project consumer group
+     *
+     * @param project       project name
+     * @param consumerGroup consumer group name
+     * @param logStore      log store or link store name
+     * @param shard         shard id
+     * @return response
+     * @throws LogException             if any error happened
+     * @throws NullPointerException     if required parameter is null
+     * @throws IllegalArgumentException if any required string parameter is empty
+     */
+    ProjectConsumerGroupCheckPointResponse GetProjectConsumerGroupCheckPoint(
+            String project, String consumerGroup, String logStore, int shard) throws LogException;
+
+    /**
+     * get all of shard checkpoints in specific log store in project consumer group
+     *
+     * @param project       project name
+     * @param consumerGroup consumer group name
+     * @param logStore      log store or link store name
+     * @return response
+     * @throws LogException             if any error happened
+     * @throws NullPointerException     if required parameter is null
+     * @throws IllegalArgumentException if any required string parameter is empty
+     */
+    ProjectConsumerGroupCheckPointResponse GetProjectConsumerGroupCheckPoint(
+            String project, String consumerGroup, String logStore) throws LogException;
+
+    /**
+     * get all of shard checkpoints in project consumer group
+     *
+     * @param project       project name
+     * @param consumerGroup consumer group name
+     * @return response
+     * @throws LogException             if any error happened
+     * @throws NullPointerException     if required parameter is null
+     * @throws IllegalArgumentException if any required string parameter is empty
+     */
+    ProjectConsumerGroupCheckPointResponse GetProjectConsumerGroupCheckPoint(
+            String project, String consumerGroup) throws LogException;
+
+    /**
+     * notify the server periodically to show that the consumer is still alive
+     *
+     * @param project        project name
+     * @param consumerGroup  consumer group name
+     * @param consumer       consumer name
+     * @param logStoreShards log store and shards hold by the consumer
+     * @return response that indicates which log store and shards the consumer should hold
+     * @throws LogException             if any error happened
+     * @throws NullPointerException     if required parameter is null
+     * @throws IllegalArgumentException if any required string parameter is empty
+     */
+    ProjectConsumerGroupHeartBeatResponse ProjectConsumerGroupHeartBeat(
+            String project, String consumerGroup, String consumer, Map<String, ArrayList<Integer>> logStoreShards) throws LogException;
 }

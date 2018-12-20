@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.zip.Deflater;
 
+import com.aliyun.openservices.log.common.*;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -29,26 +30,9 @@ import org.junit.Test;
 import com.aliyun.openservices.log.http.client.HttpMethod;
 import com.aliyun.openservices.log.http.comm.ResponseMessage;
 import com.aliyun.openservices.log.Client;
-import com.aliyun.openservices.log.common.ACL;
-import com.aliyun.openservices.log.common.ACLPrivileges;
-import com.aliyun.openservices.log.common.Config;
-import com.aliyun.openservices.log.common.ConfigInputDetail;
-import com.aliyun.openservices.log.common.ConfigOutputDetail;
-import com.aliyun.openservices.log.common.GroupAttribute;
-import com.aliyun.openservices.log.common.Histogram;
-import com.aliyun.openservices.log.common.LZ4Encoder;
-import com.aliyun.openservices.log.common.LogContent;
-import com.aliyun.openservices.log.common.LogGroupData;
-import com.aliyun.openservices.log.common.LogItem;
-import com.aliyun.openservices.log.common.LogStore;
-import com.aliyun.openservices.log.common.MachineGroup;
-import com.aliyun.openservices.log.common.QueriedLog;
-import com.aliyun.openservices.log.common.Shard;
-import com.aliyun.openservices.log.common.Consts;
 import com.aliyun.openservices.log.common.Consts.ACLAction;
 import com.aliyun.openservices.log.common.Consts.ACLPrivilege;
 import com.aliyun.openservices.log.common.Consts.CompressType;
-import com.aliyun.openservices.log.common.Logs;
 import com.aliyun.openservices.log.common.Consts.CursorMode;
 import com.aliyun.openservices.log.exception.LogException;
 import com.aliyun.openservices.log.request.ApplyConfigToMachineGroupRequest;
@@ -1157,6 +1141,47 @@ public class SlsClientUnitTest {
 			assertEquals("message", e.GetErrorMessage());
 		}
 	}
+
+	@Test
+	public void TestCreateLinkStore() {
+		ResponseMessage response = new ResponseMessage();
+
+		Map<String, String> resHeaders = new HashMap<String, String>();
+		resHeaders.put(Consts.CONST_X_SLS_REQUESTID, "TESTREQID");
+		response.setHeaders(resHeaders);
+		response.setStatusCode(200);
+
+		String testLinkStoreName = "test-linkstore";
+		String testSourceProject = "test-src-project";
+		String testSourceLogStore = "test-src-logstore";
+		LinkStore linkStore = new LinkStore(testLinkStoreName, testSourceProject, testSourceLogStore);
+
+		String project = "test-project";
+
+		try {
+			mock.ChangeResponse(response);
+			mock.CreateLinkStore(project, linkStore);
+		} catch (LogException e) {
+			assertTrue(e.getMessage(), false);
+		}
+
+		byte[] errorBody = null;
+		try {
+			errorBody = SlsClientTestData.TEST_STANDARD_ERROR.getBytes("utf-8");
+		} catch (UnsupportedEncodingException e) {
+			assertTrue(e.getMessage(), false);
+		}
+		InputStream errorContent = new ByteArrayInputStream(errorBody);
+		response.setStatusCode(400);
+		response.setContent(errorContent);
+		mock.ChangeResponse(response);
+		try {
+			mock.CreateLinkStore(project, linkStore);
+		} catch (LogException e) {
+			assertEquals("code", e.GetErrorCode());
+			assertEquals("message", e.GetErrorMessage());
+		}
+	}
 	
 	@Test
 	public void TestDeleteLogStore() {
@@ -1189,6 +1214,43 @@ public class SlsClientUnitTest {
 		mock.ChangeResponse(response);
 		try {
 			mock.DeleteLogStore(project, testLogStoreName);
+		} catch (LogException e) {
+			assertEquals("code", e.GetErrorCode());
+			assertEquals("message", e.GetErrorMessage());
+		}
+	}
+
+	@Test
+	public void TestDeleteLinkStore() {
+		ResponseMessage response = new ResponseMessage();
+
+		Map<String, String> resHeaders = new HashMap<String, String>();
+		resHeaders.put(Consts.CONST_X_SLS_REQUESTID, "TESTREQID");
+		response.setHeaders(resHeaders);
+		response.setStatusCode(200);
+
+		String testLinkStoreName = "test-linkstore";
+		String project = "test-project";
+
+		try {
+			mock.ChangeResponse(response);
+			mock.DeleteLinkStore(project, testLinkStoreName);
+		} catch (LogException e) {
+			assertTrue(e.getMessage(), false);
+		}
+
+		byte[] errorBody = null;
+		try {
+			errorBody = SlsClientTestData.TEST_STANDARD_ERROR.getBytes("utf-8");
+		} catch (UnsupportedEncodingException e) {
+			assertTrue(e.getMessage(), false);
+		}
+		InputStream errorContent = new ByteArrayInputStream(errorBody);
+		response.setStatusCode(400);
+		response.setContent(errorContent);
+		mock.ChangeResponse(response);
+		try {
+		    mock.DeleteLinkStore(project, testLinkStoreName);
 		} catch (LogException e) {
 			assertEquals("code", e.GetErrorCode());
 			assertEquals("message", e.GetErrorMessage());
