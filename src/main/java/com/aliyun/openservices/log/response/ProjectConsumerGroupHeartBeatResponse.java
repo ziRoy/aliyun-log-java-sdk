@@ -12,9 +12,10 @@ public class ProjectConsumerGroupHeartBeatResponse extends Response {
     private static final long serialVersionUID = 3558359690750583972L;
     private Map<String, ArrayList<Integer>> logStoreShards;
 
-    public ProjectConsumerGroupHeartBeatResponse(Map<String, String> headers, JSONObject logStoreShardsMap) {
+    public ProjectConsumerGroupHeartBeatResponse(Map<String, String> headers, JSONObject obj) {
         super(headers);
-
+        
+        JSONObject logStoreShardsMap = obj.getJSONObject("logstores");
         Iterator<String> keys = logStoreShardsMap.keys();
         while (keys.hasNext()) {
             String logStore = keys.next();
