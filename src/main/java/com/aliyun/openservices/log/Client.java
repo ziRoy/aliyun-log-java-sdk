@@ -2945,6 +2945,7 @@ public class Client implements LogService {
 		CodingUtils.assertStringNotNullOrEmpty(project, "project");
 		String resourceUri = "/consumergroups";
 		Map<String, String> headParameter = GetCommonHeadPara(project);
+        headParameter.put(Consts.CONST_CONTENT_TYPE, Consts.CONST_SLS_JSON);
 		Map<String, String> urlParameter = new HashMap<String, String>();
 		ResponseMessage response = SendData(project, HttpMethod.GET,
 				resourceUri, urlParameter, headParameter);
@@ -3040,6 +3041,7 @@ public class Client implements LogService {
 		ProjectConsumerGroupUpdateCheckPointRequest request = new ProjectConsumerGroupUpdateCheckPointRequest(
 				project, consumerGroup, consumer, logStore, shard, checkpoint, forceSuccess);
 		Map<String, String> headParameter = GetCommonHeadPara(project);
+		headParameter.put(Consts.CONST_CONTENT_TYPE, Consts.CONST_SLS_JSON);
 		Map<String, String> urlParameter = request.GetAllParams();
 		byte[] body = encodeToUtf8(request.GetRequestBody());
 		ResponseMessage response = SendData(project, HttpMethod.POST,
@@ -3050,10 +3052,11 @@ public class Client implements LogService {
     @Override
 	public ProjectConsumerGroupCheckPointResponse GetProjectConsumerGroupCheckPoint(String project, String consumerGroup, String logStore, int shard) throws LogException {
 		ProjectConsumerGroupGetCheckPointRequest request = new ProjectConsumerGroupGetCheckPointRequest(
-				project, logStore, consumerGroup, shard);
+				project, consumerGroup, logStore, shard);
 		Map<String, String> urlParameter = request.GetAllParams();
 		String resourceUri = "/consumergroups/" + consumerGroup;
 		Map<String, String> headParameter = GetCommonHeadPara(project);
+        headParameter.put(Consts.CONST_CONTENT_TYPE, Consts.CONST_SLS_JSON);
 		ResponseMessage response = SendData(project, HttpMethod.GET,
 				resourceUri, urlParameter, headParameter);
 		Map<String, String> resHeaders = response.getHeaders();
