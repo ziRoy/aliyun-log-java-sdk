@@ -4,6 +4,7 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -14,7 +15,8 @@ public class ProjectConsumerGroupHeartBeatResponse extends Response {
 
     public ProjectConsumerGroupHeartBeatResponse(Map<String, String> headers, JSONObject obj) {
         super(headers);
-        
+        logStoreShards = new HashMap<String, ArrayList<Integer>>();
+
         JSONObject logStoreShardsMap = obj.getJSONObject("logstores");
         Iterator<String> keys = logStoreShardsMap.keys();
         while (keys.hasNext()) {
