@@ -50,6 +50,7 @@ public class LinkStore implements Serializable {
     public JSONObject ToRequestJson()
     {
         JSONObject dict = new JSONObject();
+        dict.put("type", "link");
         dict.put("logstoreName", getLinkStoreName());
         dict.put("sourceProject", getSourceProjectName());
         dict.put("sourceLogstore", getSourceLogStoreName());
