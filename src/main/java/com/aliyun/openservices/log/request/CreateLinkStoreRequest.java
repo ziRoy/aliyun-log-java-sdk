@@ -9,7 +9,6 @@ public class CreateLinkStoreRequest extends Request {
     public CreateLinkStoreRequest(String project, LinkStore linkStore) {
         super(project);
         setLinkStore(linkStore);
-        super.SetParam("type", "link");
     }
 
     public LinkStore getLinkStore() {
