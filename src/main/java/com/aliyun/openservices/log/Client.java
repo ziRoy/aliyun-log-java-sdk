@@ -21,93 +21,7 @@ import com.aliyun.openservices.log.http.comm.ServiceClient;
 import com.aliyun.openservices.log.http.utils.CodingUtils;
 import com.aliyun.openservices.log.http.utils.DateUtil;
 import com.aliyun.openservices.log.internal.ErrorCodes;
-import com.aliyun.openservices.log.request.ApplyConfigToMachineGroupRequest;
-import com.aliyun.openservices.log.request.ApproveMachineGroupRequest;
-import com.aliyun.openservices.log.request.BatchGetLogRequest;
-import com.aliyun.openservices.log.request.ClearLogStoreStorageRequest;
-import com.aliyun.openservices.log.request.ConsumerGroupGetCheckPointRequest;
-import com.aliyun.openservices.log.request.ConsumerGroupHeartBeatRequest;
-import com.aliyun.openservices.log.request.ConsumerGroupUpdateCheckPointRequest;
-import com.aliyun.openservices.log.request.CreateAlertRequest;
-import com.aliyun.openservices.log.request.CreateChartRequest;
-import com.aliyun.openservices.log.request.CreateConfigRequest;
-import com.aliyun.openservices.log.request.CreateConsumerGroupRequest;
-import com.aliyun.openservices.log.request.CreateDashboardRequest;
-import com.aliyun.openservices.log.request.CreateEtlJobRequest;
-import com.aliyun.openservices.log.request.CreateIndexRequest;
-import com.aliyun.openservices.log.request.CreateJobRequest;
-import com.aliyun.openservices.log.request.CreateLogStoreRequest;
-import com.aliyun.openservices.log.request.CreateLoggingRequest;
-import com.aliyun.openservices.log.request.CreateMachineGroupRequest;
-import com.aliyun.openservices.log.request.CreateSavedSearchRequest;
-import com.aliyun.openservices.log.request.DeleteAlertRequest;
-import com.aliyun.openservices.log.request.DeleteChartRequest;
-import com.aliyun.openservices.log.request.DeleteConfigRequest;
-import com.aliyun.openservices.log.request.DeleteDashboardRequest;
-import com.aliyun.openservices.log.request.DeleteEtlJobRequest;
-import com.aliyun.openservices.log.request.DeleteIndexRequest;
-import com.aliyun.openservices.log.request.DeleteJobRequest;
-import com.aliyun.openservices.log.request.DeleteLogStoreRequest;
-import com.aliyun.openservices.log.request.DeleteLoggingRequest;
-import com.aliyun.openservices.log.request.DeleteMachineGroupRequest;
-import com.aliyun.openservices.log.request.DeleteSavedSearchRequest;
-import com.aliyun.openservices.log.request.DeleteShardRequest;
-import com.aliyun.openservices.log.request.DisableAlertRequest;
-import com.aliyun.openservices.log.request.DisableJobRequest;
-import com.aliyun.openservices.log.request.EnableAlertRequest;
-import com.aliyun.openservices.log.request.EnableJobRequest;
-import com.aliyun.openservices.log.request.GetAlertRequest;
-import com.aliyun.openservices.log.request.GetAppliedConfigsRequest;
-import com.aliyun.openservices.log.request.GetAppliedMachineGroupRequest;
-import com.aliyun.openservices.log.request.GetChartRequest;
-import com.aliyun.openservices.log.request.GetConfigRequest;
-import com.aliyun.openservices.log.request.GetCursorRequest;
-import com.aliyun.openservices.log.request.GetCursorTimeRequest;
-import com.aliyun.openservices.log.request.GetDashboardRequest;
-import com.aliyun.openservices.log.request.GetEtlJobRequest;
-import com.aliyun.openservices.log.request.GetHistogramsRequest;
-import com.aliyun.openservices.log.request.GetIndexRequest;
-import com.aliyun.openservices.log.request.GetJobRequest;
-import com.aliyun.openservices.log.request.GetLogStoreRequest;
-import com.aliyun.openservices.log.request.GetLoggingRequest;
-import com.aliyun.openservices.log.request.GetLogsRequest;
-import com.aliyun.openservices.log.request.GetLogtailProfileRequest;
-import com.aliyun.openservices.log.request.GetMachineGroupRequest;
-import com.aliyun.openservices.log.request.GetProjectLogsRequest;
-import com.aliyun.openservices.log.request.GetSavedSearchRequest;
-import com.aliyun.openservices.log.request.JobRequest;
-import com.aliyun.openservices.log.request.ListACLRequest;
-import com.aliyun.openservices.log.request.ListAlertRequest;
-import com.aliyun.openservices.log.request.ListConfigRequest;
-import com.aliyun.openservices.log.request.ListDashboardRequest;
-import com.aliyun.openservices.log.request.ListEtlJobRequest;
-import com.aliyun.openservices.log.request.ListEtlMetaRequest;
-import com.aliyun.openservices.log.request.ListJobsRequest;
-import com.aliyun.openservices.log.request.ListLogStoresRequest;
-import com.aliyun.openservices.log.request.ListMachineGroupRequest;
-import com.aliyun.openservices.log.request.ListProjectRequest;
-import com.aliyun.openservices.log.request.ListSavedSearchRequest;
-import com.aliyun.openservices.log.request.ListShardRequest;
-import com.aliyun.openservices.log.request.ListTopicsRequest;
-import com.aliyun.openservices.log.request.MergeShardsRequest;
-import com.aliyun.openservices.log.request.PullLogsRequest;
-import com.aliyun.openservices.log.request.PutLogsRequest;
-import com.aliyun.openservices.log.request.RemoveConfigFromMachineGroupRequest;
-import com.aliyun.openservices.log.request.SplitShardRequest;
-import com.aliyun.openservices.log.request.UpdateACLRequest;
-import com.aliyun.openservices.log.request.UpdateAlertRequest;
-import com.aliyun.openservices.log.request.UpdateChartRequest;
-import com.aliyun.openservices.log.request.UpdateConfigRequest;
-import com.aliyun.openservices.log.request.UpdateDashboardRequest;
-import com.aliyun.openservices.log.request.UpdateEtlJobRequest;
-import com.aliyun.openservices.log.request.UpdateIndexRequest;
-import com.aliyun.openservices.log.request.UpdateJobRequest;
-import com.aliyun.openservices.log.request.UpdateLogStoreRequest;
-import com.aliyun.openservices.log.request.UpdateLoggingRequest;
-import com.aliyun.openservices.log.request.UpdateMachineGroupMachineRequest;
-import com.aliyun.openservices.log.request.UpdateMachineGroupRequest;
-import com.aliyun.openservices.log.request.UpdateProjectRequest;
-import com.aliyun.openservices.log.request.UpdateSavedSearchRequest;
+import com.aliyun.openservices.log.request.*;
 import com.aliyun.openservices.log.response.*;
 import com.aliyun.openservices.log.util.Args;
 import com.aliyun.openservices.log.util.JsonUtils;
@@ -2220,6 +2134,32 @@ public class Client implements LogService {
 		return new CreateLogStoreResponse(resHeaders);
 	}
 
+    @Override
+    public CreateLinkStoreResponse CreateLinkStore(String project, LinkStore linkStore) throws LogException {
+        CodingUtils.assertStringNotNullOrEmpty(project, "project");
+        CodingUtils.assertParameterNotNull(linkStore, "logStore");
+        return CreateLinkStore(new CreateLinkStoreRequest(project, linkStore));
+    }
+
+    @Override
+    public CreateLinkStoreResponse CreateLinkStore(CreateLinkStoreRequest request) throws LogException
+    {
+        CodingUtils.assertParameterNotNull(request, "request");
+        String project = request.GetProject();
+        CodingUtils.assertStringNotNullOrEmpty(project, "project");
+        LinkStore linkStore = request.getLinkStore();
+        CodingUtils.assertParameterNotNull(linkStore, "linkStore");
+        Map<String, String> headParameter = GetCommonHeadPara(project);
+        byte[] body = encodeToUtf8(linkStore.ToRequestString());
+        headParameter.put(Consts.CONST_CONTENT_TYPE, Consts.CONST_SLS_JSON);
+        String resourceUri = "/logstores";
+        Map<String, String> urlParameter = request.GetAllParams();
+        ResponseMessage response = SendData(project, HttpMethod.POST,
+                resourceUri, urlParameter, headParameter, body);
+        Map<String, String> resHeaders = response.getHeaders();
+        return new CreateLinkStoreResponse(resHeaders);
+    }
+
 	@Override
 	public DeleteLogStoreResponse DeleteLogStore(String project,
 			String logStoreName) throws LogException {
@@ -2245,7 +2185,30 @@ public class Client implements LogService {
 		return new DeleteLogStoreResponse(resHeaders);
 	}
 
-	@Override
+    @Override
+    public DeleteLinkStoreResponse DeleteLinkStore(String project, String linkStoreName) throws LogException {
+        CodingUtils.assertStringNotNullOrEmpty(project, "project");
+        CodingUtils.assertStringNotNullOrEmpty(linkStoreName, "linkStoreName");
+        return DeleteLinkStore(new DeleteLinkStoreRequest(project, linkStoreName));
+    }
+
+    @Override
+    public DeleteLinkStoreResponse DeleteLinkStore(DeleteLinkStoreRequest request) throws LogException {
+        CodingUtils.assertParameterNotNull(request, "request");
+        String project = request.GetProject();
+        CodingUtils.assertStringNotNullOrEmpty(project, "project");
+        String linkStoreName = request.getLinkStoreName();
+        CodingUtils.assertStringNotNullOrEmpty(linkStoreName, "linkStoreName");
+        Map<String, String> headParameter = GetCommonHeadPara(project);
+        String resourceUri = "/logstores/" + linkStoreName;
+        Map<String, String> urlParameter = request.GetAllParams();
+        ResponseMessage response = SendData(project, HttpMethod.DELETE,
+                resourceUri, urlParameter, headParameter);
+        Map<String, String> resHeaders = response.getHeaders();
+        return new DeleteLinkStoreResponse(resHeaders);
+    }
+
+    @Override
 	public ClearLogStoreStorageResponse ClearLogStoreStorage(String project,
 			String logStoreName) throws LogException {
 		CodingUtils.assertStringNotNullOrEmpty(project, "project");
@@ -2936,6 +2899,206 @@ public class Client implements LogService {
 		String requestId = GetRequestId(resHeaders);
 		JSONArray array = ParseResponseMessageToArray(response, requestId);
         return new ConsumerGroupCheckPointResponse(resHeaders, array);
+	}
+
+    @Override
+    public CreateProjectConsumerGroupResponse CreateProjectConsumerGroup(CreateProjectConsumerGroupRequest request) throws LogException {
+	    CodingUtils.assertParameterNotNull(request, "request");
+	    String project = request.GetProject();
+	    CodingUtils.assertStringNotNullOrEmpty(project, "project");
+	    ProjectConsumerGroup projectConsumerGroup = request.getConsumerGroup();
+	    CodingUtils.assertParameterNotNull(projectConsumerGroup, "consumerGroup");
+	    Map<String, String> headParameter = GetCommonHeadPara(project);
+	    byte[] body = encodeToUtf8(projectConsumerGroup.ToRequestString());
+	    headParameter.put(Consts.CONST_CONTENT_TYPE, Consts.CONST_SLS_JSON);
+	    String resourceUri = "/consumergroups";
+	    Map<String, String> urlParameter = new HashMap<String, String>();
+	    ResponseMessage response = SendData(project, HttpMethod.POST,
+                resourceUri, urlParameter, headParameter, body);
+	    Map<String, String> resHeaders = response.getHeaders();
+	    return new CreateProjectConsumerGroupResponse(resHeaders);
+    }
+
+    @Override
+    public CreateProjectConsumerGroupResponse CreateProjectConsumerGroup(String project, ProjectConsumerGroup consumerGroup) throws LogException {
+        CodingUtils.assertStringNotNullOrEmpty(project, "project");
+        return CreateProjectConsumerGroup(new CreateProjectConsumerGroupRequest(
+                project, consumerGroup));
+    }
+
+    @Override
+    public DeleteProjectConsumerGroupResponse DeleteProjectConsumerGroup(String project, String consumerGroup) throws LogException {
+        CodingUtils.assertStringNotNullOrEmpty(project, "project");
+        CodingUtils.assertStringNotNullOrEmpty(consumerGroup, "consumerGroup");
+        Map<String, String> headParameter = GetCommonHeadPara(project);
+        String resourceUri = "/consumergroups/" + consumerGroup;
+        headParameter.put(Consts.CONST_CONTENT_TYPE, String.valueOf(0));
+        Map<String, String> urlParameter = new HashMap<String, String>();
+        ResponseMessage response = SendData(project, HttpMethod.DELETE,
+				resourceUri, urlParameter, headParameter);
+        Map<String, String> resHeaders = response.getHeaders();
+        return new DeleteProjectConsumerGroupResponse(resHeaders);
+    }
+
+    @Override
+	public ListProjectConsumerGroupResponse ListProjectConsumerGroup(String project) throws LogException {
+		CodingUtils.assertStringNotNullOrEmpty(project, "project");
+		String resourceUri = "/consumergroups";
+		Map<String, String> headParameter = GetCommonHeadPara(project);
+        headParameter.put(Consts.CONST_CONTENT_TYPE, Consts.CONST_SLS_JSON);
+		Map<String, String> urlParameter = new HashMap<String, String>();
+		ResponseMessage response = SendData(project, HttpMethod.GET,
+				resourceUri, urlParameter, headParameter);
+		ArrayList<ProjectConsumerGroup> consumerGroups = new ArrayList<ProjectConsumerGroup>();
+		Map<String, String> resHeaders = response.getHeaders();
+		String requestId = GetRequestId(resHeaders);
+		JSONArray array = ParseResponseMessageToArray(response, requestId);
+		ExtractProjectConsumerGroup(array, requestId, consumerGroups);
+		ListProjectConsumerGroupResponse listProjectConsumerGroupResponse = new ListProjectConsumerGroupResponse(resHeaders);
+		listProjectConsumerGroupResponse.setConsumerGroups(consumerGroups);
+		return listProjectConsumerGroupResponse;
+	}
+
+	private void ExtractProjectConsumerGroup(JSONArray array, String requestId,
+											 ArrayList<ProjectConsumerGroup> consumerGroups) throws LogException {
+		try {
+			for (int i = 0; i < array.size(); i++) {
+				JSONObject consumerGroup = array.getJSONObject(i);
+				consumerGroups.add(new ProjectConsumerGroup(
+						consumerGroup.getString("name"),
+						consumerGroup.getString("logstoreName"),
+						consumerGroup.getInt("timeout"),
+						consumerGroup.getBoolean("order")
+				));
+			}
+		} catch (JSONException e) {
+			throw new LogException(ErrorCodes.BAD_RESPONSE,
+					"The response is not valid consumer group json array string : "
+							+ array.toString(), e, requestId);
+		}
+	}
+
+	@Override
+	public UpdateProjectConsumerGroupResponse UpdateProjectConsumerGroup(String project, String consumerGroup, boolean inOrder, int timeoutInSec) throws LogException {
+		return UpdateProjectConsumerGroup(project, consumerGroup, (Boolean) inOrder, (Integer) timeoutInSec);
+	}
+
+	@Override
+	public UpdateProjectConsumerGroupResponse UpdateProjectConsumerGroup(String project, String consumerGroup, boolean inOrder) throws LogException {
+		return UpdateProjectConsumerGroup(project, consumerGroup, (Boolean) inOrder, null);
+	}
+
+	@Override
+	public UpdateProjectConsumerGroupResponse UpdateProjectConsumerGroup(String project, String consumerGroup, int timeoutInSec) throws LogException {
+		return UpdateProjectConsumerGroup(project, consumerGroup, null, (Integer) timeoutInSec);
+	}
+
+	protected UpdateProjectConsumerGroupResponse UpdateProjectConsumerGroup(String project, String consumerGroup, Boolean inOrder, Integer timeoutInSec) throws LogException {
+		CodingUtils.assertStringNotNullOrEmpty(project, "project");
+		CodingUtils.assertStringNotNullOrEmpty(consumerGroup, "consumerGroup");
+		Map<String, String> headParameter = GetCommonHeadPara(project);
+		final JSONObject asJson = new JSONObject();
+		if (inOrder != null) {
+			asJson.put("order", inOrder);
+		}
+		if (timeoutInSec != null) {
+			asJson.put("timeout", timeoutInSec);
+		}
+		byte[] body = encodeToUtf8(asJson.toString());
+		headParameter.put(Consts.CONST_CONTENT_TYPE, Consts.CONST_SLS_JSON);
+
+		String resourceUri = "/consumergroups/" + consumerGroup;
+		Map<String, String> urlParameter = new HashMap<String, String>();
+		ResponseMessage response = SendData(project, HttpMethod.PUT,
+				resourceUri, urlParameter, headParameter, body);
+		Map<String, String> resHeaders = response.getHeaders();
+		return new UpdateProjectConsumerGroupResponse(resHeaders);
+	}
+
+	@Override
+	public ProjectConsumerGroupUpdateCheckPointResponse UpdateProjectConsumerGroupCheckPoint(String project, String consumerGroup, String consumer, String logStore, int shard, String checkpoint) throws LogException {
+		CodingUtils.assertStringNotNullOrEmpty(project, "project");
+		CodingUtils.assertStringNotNullOrEmpty(consumerGroup, "consumerGroup");
+		CodingUtils.assertStringNotNullOrEmpty(consumer, "consumer");
+		CodingUtils.assertStringNotNullOrEmpty(logStore, "logStore");
+		CodingUtils.assertStringNotNullOrEmpty(checkpoint, "checkpoint");
+		return UpdateProjectConsumerGroupCheckPoint(project, consumerGroup, consumer, logStore, shard, checkpoint, false);
+	}
+
+	@Override
+	public ProjectConsumerGroupUpdateCheckPointResponse UpdateProjectConsumerGroupCheckPoint(String project, String consumerGroup, String logStore, int shard, String checkpoint) throws LogException {
+		CodingUtils.assertStringNotNullOrEmpty(project, "project");
+		CodingUtils.assertStringNotNullOrEmpty(consumerGroup, "consumerGroup");
+		CodingUtils.assertStringNotNullOrEmpty(logStore, "logStore");
+		CodingUtils.assertStringNotNullOrEmpty(checkpoint, "checkpoint");
+		return UpdateProjectConsumerGroupCheckPoint(project, consumerGroup, "", logStore, shard, checkpoint, true);
+	}
+
+	protected ProjectConsumerGroupUpdateCheckPointResponse UpdateProjectConsumerGroupCheckPoint(
+			String project, String consumerGroup, String consumer, String logStore, int shard, String checkpoint,
+			boolean forceSuccess) throws LogException {
+		String resourceUri = "/consumergroups/" + consumerGroup;
+		ProjectConsumerGroupUpdateCheckPointRequest request = new ProjectConsumerGroupUpdateCheckPointRequest(
+				project, consumerGroup, consumer, logStore, shard, checkpoint, forceSuccess);
+		Map<String, String> headParameter = GetCommonHeadPara(project);
+		headParameter.put(Consts.CONST_CONTENT_TYPE, Consts.CONST_SLS_JSON);
+		Map<String, String> urlParameter = request.GetAllParams();
+		byte[] body = encodeToUtf8(request.GetRequestBody());
+		ResponseMessage response = SendData(project, HttpMethod.POST,
+				resourceUri, urlParameter, headParameter, body);
+		Map<String, String> resHeaders = response.getHeaders();
+		return new ProjectConsumerGroupUpdateCheckPointResponse(resHeaders);
+	}
+    @Override
+	public ProjectConsumerGroupCheckPointResponse GetProjectConsumerGroupCheckPoint(String project, String consumerGroup, String logStore, int shard) throws LogException {
+		ProjectConsumerGroupGetCheckPointRequest request = new ProjectConsumerGroupGetCheckPointRequest(
+				project, consumerGroup, logStore, shard);
+		Map<String, String> urlParameter = request.GetAllParams();
+		String resourceUri = "/consumergroups/" + consumerGroup;
+		Map<String, String> headParameter = GetCommonHeadPara(project);
+        headParameter.put(Consts.CONST_CONTENT_TYPE, Consts.CONST_SLS_JSON);
+		ResponseMessage response = SendData(project, HttpMethod.GET,
+				resourceUri, urlParameter, headParameter);
+		Map<String, String> resHeaders = response.getHeaders();
+		String requestId = GetRequestId(resHeaders);
+		JSONObject object = parseResponseBody(response, requestId);
+		return new ProjectConsumerGroupCheckPointResponse(resHeaders, object);
+	}
+
+	@Override
+	public ProjectConsumerGroupCheckPointResponse GetProjectConsumerGroupCheckPoint(String project, String consumerGroup, String logStore) throws LogException {
+		CodingUtils.assertStringNotNullOrEmpty(project, "project");
+		CodingUtils.assertStringNotNullOrEmpty(consumerGroup, "consumerGroup");
+		CodingUtils.assertStringNotNullOrEmpty(logStore, "logStore");
+		return GetProjectConsumerGroupCheckPoint(project, consumerGroup, logStore, -1);
+	}
+
+	@Override
+	public ProjectConsumerGroupCheckPointResponse GetProjectConsumerGroupCheckPoint(String project, String consumerGroup) throws LogException {
+		CodingUtils.assertStringNotNullOrEmpty(project, "project");
+		CodingUtils.assertStringNotNullOrEmpty(consumerGroup, "consumerGroup");
+		return GetProjectConsumerGroupCheckPoint(project, consumerGroup, "", -1);
+	}
+
+	@Override
+	public ProjectConsumerGroupHeartBeatResponse ProjectConsumerGroupHeartBeat(String project, String consumerGroup, String consumer, Map<String, ArrayList<Integer>> logStoreShards) throws LogException {
+		CodingUtils.assertStringNotNullOrEmpty(project, "project");
+		CodingUtils.assertStringNotNullOrEmpty(consumerGroup, "consumerGroup");
+		CodingUtils.assertStringNotNullOrEmpty(consumer, "consumer");
+		String resourceUri = "/consumergroups/" + consumerGroup;
+		ProjectConsumerGroupHeartBeatRequest request = new ProjectConsumerGroupHeartBeatRequest(
+				project, consumer, logStoreShards == null ? new HashMap<String, ArrayList<Integer>>() : logStoreShards);
+		Map<String, String> headParameter = GetCommonHeadPara(project);
+		Map<String, String> urlParameter = request.GetAllParams();
+
+		byte[] body = encodeToUtf8(request.GetRequestBody());
+		headParameter.put(Consts.CONST_CONTENT_TYPE, Consts.CONST_SLS_JSON);
+		ResponseMessage response = SendData(project, HttpMethod.POST,
+				resourceUri, urlParameter, headParameter, body);
+		Map<String, String> resHeaders = response.getHeaders();
+		String requestId = GetRequestId(resHeaders);
+		JSONObject object = parseResponseBody(response, requestId);
+		return new ProjectConsumerGroupHeartBeatResponse(resHeaders, object);
 	}
 
 	@Override

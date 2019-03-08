@@ -83,6 +83,21 @@ public abstract class FunctionTest {
         return false;
     }
 
+    static boolean safeDeleteLinkStore(String project, String linkStore){
+        try {
+            client.DeleteLinkStore(project, linkStore);
+        } catch (LogException ex) {
+            System.out.println("ERROR: errorCode=" + ex.GetErrorCode()
+                    + ", errorMessage=" + ex.GetErrorMessage()
+                    + ", requestId=" + ex.GetRequestId());
+            if (!ex.GetErrorCode().equals("LogStoreNotExist")){
+                fail("Delete linkStore " + linkStore + " failed");
+            }
+        }
+        return false;
+    }
+
+
     static void createOrUpdateLogStore(String project, LogStore logStore) {
         createProjectIfNotExist(project, "");
         try {
