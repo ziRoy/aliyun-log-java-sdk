@@ -9,13 +9,13 @@
 
 
     <groupId>com.aliyun.openservices</groupId>
-    <artifactId>aliyun-log</artifactId>
-	<version>0.6.30-SNAPSHOT</version>
+    <artifactId>aliyun-log-ant</artifactId>
+	<version>0.6.30</version>
     <packaging>jar</packaging>
 
-    <name>Aliyun LOG Java SDK</name>
+    <name>Aliyun LOG Java SDK for ANT</name>
     <url>http://www.aliyun.com</url>
-    <description>Aliyun LOG Java SDK</description>
+    <description>Aliyun LOG Java SDK for ANT</description>
 
     <licenses>
         <license>
@@ -26,9 +26,9 @@
         </license>
     </licenses>
     <scm>
-        <url>https://github.com/aliyun/aliyun-log-java-sdk</url>
-        <connection>scm:git:git@github.com:aliyun/aliyun-log-java-sdk.git</connection>
-        <developerConnection>scm:git:git@github.com:aliyun/aliyun-log-java-sdk.git
+        <url>http://gitlab.alipay-inc.com/DTS/aliyun-log-java-sdk.git</url>
+        <connection>scm:git:git@gitlab.alipay-inc.com:DTS/aliyun-log-java-sdk.git</connection>
+        <developerConnection>scm:git:git@gitlab.alipay-inc.com:DTS/aliyun-log-java-sdk.git
         </developerConnection>
     </scm>
     <developers>
