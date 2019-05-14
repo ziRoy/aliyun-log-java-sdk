@@ -76,7 +76,7 @@ public class PullLogsResponse extends Response {
      * @param uncompressedData is LogGroupList bytes
      * @throws LogException if parse fails
      */
-    private void parseFastLogGroupList(byte[] uncompressedData) throws LogException {
+    public void parseFastLogGroupList(byte[] uncompressedData) throws LogException {
         int pos = 0;
         int rawSize = uncompressedData.length;
         int mode, index;
