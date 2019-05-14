@@ -17,6 +17,7 @@ public class PullLogsResponse extends Response {
     private static final long serialVersionUID = -2027711570684362279L;
     private List<LogGroupData> logGroups;
     private int rawSize;
+    private byte[] rawData;
     private int count;
 
     public PullLogsResponse(Map<String, String> headers) {
@@ -32,10 +33,24 @@ public class PullLogsResponse extends Response {
      * @throws LogException if any error occurs in generating compressed log data
      */
     public PullLogsResponse(Map<String, String> headers, byte[] rawData) throws LogException {
+        this(headers, rawData, true);
+    }
+
+
+    /**
+     * Construct the response with addition flag of extracting data or not
+     *
+     * @param headers http headers
+     * @param rawData the response body byte array
+     * @param parse   whether extracting data or not
+     * @throws LogException if any error occurs in generating compressed log data
+     */
+    public PullLogsResponse(Map<String, String> headers, byte[] rawData, boolean parse) throws LogException {
         this(headers);
         try {
+            this.rawData = rawData;
             rawSize = Integer.parseInt(headers.get(Consts.CONST_X_SLS_BODYRAWSIZE));
-            if (rawSize > 0) {
+            if (rawSize > 0 && parse) {
                 byte[] uncompressedData = LZ4Encoder.decompressFromLhLz4Chunk(rawData, rawSize);
                 parseFastLogGroupList(uncompressedData);
             }
@@ -113,6 +128,13 @@ public class PullLogsResponse extends Response {
      */
     public int getCount() {
         return count;
+    }
+
+    /**
+     * @return the response raw body without decompress and parse
+     */
+    public byte[] getRawData() {
+        return rawData;
     }
 
     /**

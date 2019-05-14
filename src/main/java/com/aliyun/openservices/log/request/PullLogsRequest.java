@@ -16,6 +16,7 @@ public class PullLogsRequest extends Request {
     private int count;
     private String cursor;
     private String endCursor;
+    private boolean respondRaw;
 
     /**
      * Construct a get cursor request
@@ -47,6 +48,7 @@ public class PullLogsRequest extends Request {
         setCount(count);
         setCursor(cursor);
         setEndCursor(endCursor);
+        setRespondRaw(false);
     }
 
     public String getLogStore() {
@@ -91,6 +93,18 @@ public class PullLogsRequest extends Request {
 
     public void setEndCursor(String endCursor) {
         this.endCursor = endCursor;
+    }
+
+    public boolean isRespondRaw() {
+        return respondRaw;
+    }
+
+    /**
+     * set whether SDK returns un-decompressed raw data
+     * @param respondRaw true if you want SDK to return un-decompressed raw data
+     */
+    public void setRespondRaw(boolean respondRaw) {
+        this.respondRaw = respondRaw;
     }
 
     @Override

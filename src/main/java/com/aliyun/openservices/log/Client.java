@@ -1107,7 +1107,7 @@ public class Client implements LogService {
             try {
                 ResponseMessage response = SendData(project, HttpMethod.GET, resourceUri, urlParameter, headers, new byte[0], null, serverIp);
                 Map<String, String> resHeaders = response.getHeaders();
-                PullLogsResponse plr = new PullLogsResponse(resHeaders, response.GetRawBody());
+                PullLogsResponse plr = new PullLogsResponse(resHeaders, response.GetRawBody(), !request.isRespondRaw());
                 if (connectionStatus != null) {
                     connectionStatus.UpdateLastUsedTime(System.nanoTime());
                     connectionStatus.AddPullDataSize(plr.getRawSize());
